@@ -14,7 +14,7 @@ public class Syntax
 
     SyntaxWord GetEntry(string word)
     {
-        if(indexedWords.TryGetValue(word, out SyntaxWord result) is false)
+        if(indexedWords.TryGetValue(word, out SyntaxWord? result) is false)
         {
             result = new SyntaxWord(word);
             words.Add(result);
