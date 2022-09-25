@@ -9,5 +9,5 @@ public class SyntaxWord
         Word = word;
     }
 
-    public List<SyntaxRelations> Relations { get; set; } = new(32);
+    public SyntaxRelations Relations { get; set; } = new();
 }
