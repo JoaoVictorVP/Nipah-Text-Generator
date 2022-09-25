@@ -38,9 +38,9 @@ public class SyntaxTrainer
             var word = syntax.GetEntry(token.Text);
 
             if (left is not null)
-                word.Relations.AddLeft(left?.Text!);
+                word.Relations.AddLeft(left?.Text!, syntax.GetEntry);
             if (right is not null)
-                word.Relations.AddRight(right?.Text!);
+                word.Relations.AddRight(right?.Text!, syntax.GetEntry);
         }
     }
 }
