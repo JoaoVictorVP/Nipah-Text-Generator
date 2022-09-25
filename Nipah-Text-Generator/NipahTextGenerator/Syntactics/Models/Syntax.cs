@@ -9,8 +9,8 @@ namespace NipahTextGenerator.Syntactics.Models;
 public class Syntax
 {
     public string Language { get; set; }
-    List<SyntaxWord> words = new(32);
-    Dictionary<string, SyntaxWord> indexedWords = new(32);
+    readonly List<SyntaxWord> words = new(32);
+    readonly Dictionary<string, SyntaxWord> indexedWords = new(32);
 
     SyntaxWord GetEntry(string word)
     {
