@@ -34,17 +34,17 @@ public class Syntax
     {
         var sb = new StringBuilder(3200);
         foreach (var word in words)
-            sb.Append(BuildFor(word));
+            sb.AppendLine(BuildFor(word));
         return sb.ToString();
     }
     string BuildFor(SyntaxWord word)
         => $"{word.Word}:"
-        + BuildForRelations(CollectionsMarshal.AsSpan(word.Relations.Left), "\n Left")
-        + BuildForRelations(CollectionsMarshal.AsSpan(word.Relations.Right), "\n Right");
+        + "\n Left" + BuildForRelations(CollectionsMarshal.AsSpan(word.Relations.Left), "")
+        + "\n Right" + BuildForRelations(CollectionsMarshal.AsSpan(word.Relations.Right), "");
     string BuildForRelations(ReadOnlySpan<SyntaxRelation> relations, string str)
         => relations switch
         {
-            { Length: > 0 } => str + $"\n   - {relations[0].Word.Word} ({relations[0].Times}x Times)"
+            { Length: > 0 } => $"\n   - {relations[0].Word.Word} ({relations[0].Times}x Times)"
                 + BuildForRelations(relations[1..], str),
             _ => str
         };
