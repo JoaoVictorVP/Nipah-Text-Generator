@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NipahTextGenerator", "Nipah
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NipahTextGenerator.Testdrive", "NipahTextGenerator.Testdrive\NipahTextGenerator.Testdrive.csproj", "{CBB1389D-FFD2-4091-9779-049A49697D7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteDBForkJoin", "LiteDBForkJoin\LiteDBForkJoin.csproj", "{9FD1E2D3-3AB8-4CBC-93A5-FCD55280B018}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteDBForkJoin", "LiteDBForkJoin\LiteDBForkJoin.csproj", "{9FD1E2D3-3AB8-4CBC-93A5-FCD55280B018}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A712B7DE-966D-438E-9DB2-7C2DBB67B504}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteDBForkJoin.UnitTests", "LiteDBForkJoin.UnitTests\LiteDBForkJoin.UnitTests.csproj", "{5F20AB39-0096-4831-8E98-D926C6E12725}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +31,16 @@ Global
 		{9FD1E2D3-3AB8-4CBC-93A5-FCD55280B018}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FD1E2D3-3AB8-4CBC-93A5-FCD55280B018}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FD1E2D3-3AB8-4CBC-93A5-FCD55280B018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F20AB39-0096-4831-8E98-D926C6E12725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F20AB39-0096-4831-8E98-D926C6E12725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F20AB39-0096-4831-8E98-D926C6E12725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F20AB39-0096-4831-8E98-D926C6E12725}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5F20AB39-0096-4831-8E98-D926C6E12725} = {A712B7DE-966D-438E-9DB2-7C2DBB67B504}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A66B0772-A1F2-4688-ADE1-4676215E0884}
