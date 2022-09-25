@@ -1,4 +1,5 @@
-﻿using NipahTokenizer;
+﻿using NipahTextGenerator.Syntactics.Models;
+using NipahTokenizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ public class SyntaxTrainer
             TokenizerOptions.DefaultAggregators
         );
     }
-    public void Train(string text)
+    public void Train(string text, Syntax syntax)
     {
         var tokens = tokenizer.Tokenize(text, tokenizerOptions);
 
@@ -31,13 +32,15 @@ public class SyntaxTrainer
             Token token = tokens[i];
             if (token.Type is TokenType.EOF) continue;
 
-            Token? before = i is 0 ? (Nullable<Token>)null : tokens[i - 1];
-            Token? next = i >= tokens.Count ? (Nullable<Token>)null : tokens[i + 1];
+            Token? left = i is 0 ? (Nullable<Token>)null : tokens[i - 1];
+            Token? right = i >= tokens.Count ? (Nullable<Token>)null : tokens[i + 1];
 
-            var word = GetEntry(token.Text);
+            var word = syntax.GetEntry(token.Text);
 
-
-
+            if (left is not null)
+                word.Relations.AddLeft(left?.Text!);
+            if (right is not null)
+                word.Relations.AddRight(right?.Text!);
         }
     }
 }
