@@ -11,7 +11,7 @@ public static class DBUtils
         {
             var colFrom = from.GetCollection(colName);
             var all = colFrom.FindAll();
-            bool needJoinCol = to.CollectionExists(colName) is false;
+            bool needJoinCol = to.CollectionExists(colName);
             var colTo = to.GetCollection(colName);
             if (needJoinCol is false)
             {
@@ -24,9 +24,12 @@ public static class DBUtils
                 {
                     var docTo = colTo.FindById(docFrom["_id"]);
                     if (docTo is null)
-                        colTo.Insert(docTo);
+                        colTo.Insert(docFrom);
                     else
+                    {
                         JoinDocument(docFrom, docTo);
+                        colTo.Update(docFromId, docTo);
+                    }
                 }
                 else
                     colTo.Insert(docFrom);
@@ -37,5 +40,32 @@ public static class DBUtils
     {
         foreach (var prop in docFrom)
             docTo[prop.Key] = prop.Value;
+    }
+    static void JoinArray(BsonArray arrFrom, BsonArray arrTo)
+    {
+        int fromCount = arrFrom.Count;
+        int toCount = arrTo.Count;
+        for (int i = 0; i < fromCount; i++)
+        {
+            var fromVal = arrFrom[i];
+            if(i < toCount)
+            {
+                var toVal = arrTo[i];
+                if (fromVal.IsDocument && toVal.IsDocument)
+                {
+                    JoinDocument(fromVal.AsDocument, toVal.AsDocument);
+                    continue;
+                }
+                else if (fromVal.IsArray && toVal.IsArray)
+                {
+                    JoinArray(fromVal.AsArray, toVal.AsArray);
+                    continue;
+                }
+                else
+                    arrTo[i] = fromVal;
+            }
+            else
+                arrTo.Add(fromVal);
+        }
     }
 }
