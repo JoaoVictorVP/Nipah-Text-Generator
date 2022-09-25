@@ -44,7 +44,7 @@ public class Syntax
     string BuildForRelations(ReadOnlySpan<SyntaxRelation> relations, string str)
         => relations switch
         {
-            { Length: > 0 } => $"\n   - {relations[0].Word.Word} ({relations[0].Times}x Times)"
+            { Length: > 0 } => str + $"\n   - {relations[0].Word.Word} ({relations[0].Times}x Times)"
                 + BuildForRelations(relations[1..], str),
             _ => str
         };

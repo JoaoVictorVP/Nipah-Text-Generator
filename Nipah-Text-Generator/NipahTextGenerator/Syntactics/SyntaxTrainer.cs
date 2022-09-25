@@ -33,7 +33,7 @@ public class SyntaxTrainer
             if (token.Type is TokenType.EOF) continue;
 
             Token? left = i is 0 ? (Nullable<Token>)null : tokens[i - 1];
-            Token? right = i >= tokens.Count ? (Nullable<Token>)null : tokens[i + 1];
+            Token? right = i >= (tokens.Count - 1) ? (Nullable<Token>)null : tokens[i + 1];
 
             var word = syntax.GetEntry(token.Text);
 
