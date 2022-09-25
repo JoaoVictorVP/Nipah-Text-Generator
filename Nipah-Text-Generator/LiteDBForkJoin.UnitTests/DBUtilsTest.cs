@@ -65,4 +65,96 @@ public class DBUtilsTest
         locArr.Count.Should().Be(5);
         locArr.SequenceEqual(new BsonValue[] { 300, 500, 100, 200, 300 }).Should().BeTrue();
     }
+
+    [Fact]
+    public void LiteDBJoinREP_ROAAKE()
+    {
+        // Arrange
+        var strategy = MergeStrategy.ReplaceEveryProperty | MergeStrategy.ReplaceOrAddAndKeepExisting;
+        var (dbFrom, dbTo) = Arrange();
+
+        // Act
+        DBUtils.Join(dbFrom, dbTo, strategy);
+
+        // Assert
+        var loc = dbTo.GetCollection("Loc");
+        loc.FindById("Vessel")["Or"].AsString.Should().Be("Maybe not");
+        loc.FindOne(x => x["Name"].IsString)["Age"].AsInt32.Should().Be(100);
+        dbTo.CollectionExists("Lmao").Should().BeTrue();
+        var lmao = dbTo.GetCollection("Lmao");
+        lmao.FindOne(x => x["Cuz"].IsString)["Cuz"].Should().Be("lulz");
+
+        var locArr = loc.FindById("Vessel")["Arr"].AsArray;
+        locArr.Count.Should().Be(3);
+        locArr.SequenceEqual(new BsonValue[] { 100, 200, 300 }).Should().BeTrue();
+    }
+
+    [Fact]
+    public void LiteDBJoinREP_REA()
+    {
+        // Arrange
+        var strategy = MergeStrategy.ReplaceEveryProperty | MergeStrategy.ReplaceEntireArray;
+        var (dbFrom, dbTo) = Arrange();
+
+        // Act
+        DBUtils.Join(dbFrom, dbTo, strategy);
+
+        // Assert
+        var loc = dbTo.GetCollection("Loc");
+        loc.FindById("Vessel")["Or"].AsString.Should().Be("Maybe not");
+        loc.FindOne(x => x["Name"].IsString)["Age"].AsInt32.Should().Be(100);
+        dbTo.CollectionExists("Lmao").Should().BeTrue();
+        var lmao = dbTo.GetCollection("Lmao");
+        lmao.FindOne(x => x["Cuz"].IsString)["Cuz"].Should().Be("lulz");
+
+        var locArr = loc.FindById("Vessel")["Arr"].AsArray;
+        locArr.Count.Should().Be(3);
+        locArr.SequenceEqual(new BsonValue[] { 100, 200, 300 }).Should().BeTrue();
+    }
+
+    [Fact]
+    public void LiteDBJoinKOP_JAR()
+    {
+        // Arrange
+        var strategy = MergeStrategy.KeepOldProperties | MergeStrategy.JustAddArray;
+        var (dbFrom, dbTo) = Arrange();
+
+        // Act
+        DBUtils.Join(dbFrom, dbTo, strategy);
+
+        // Assert
+        var loc = dbTo.GetCollection("Loc");
+        loc.FindById("Vessel")["Or"].AsString.Should().Be("Not");
+        loc.FindOne(x => x["Name"].IsString)["Age"].AsInt32.Should().Be(100);
+        dbTo.CollectionExists("Lmao").Should().BeTrue();
+        var lmao = dbTo.GetCollection("Lmao");
+        lmao.FindOne(x => x["Cuz"].IsString)["Cuz"].Should().Be("lulz");
+
+        var locArr = loc.FindById("Vessel")["Arr"].AsArray;
+        locArr.Count.Should().Be(2);
+        locArr.SequenceEqual(new BsonValue[] { 300, 500 }).Should().BeTrue();
+    }
+
+    [Fact]
+    public void LiteDBJoinRED_JAR()
+    {
+        // Arrange
+        var strategy = MergeStrategy.ReplaceEntireDocument | MergeStrategy.JustAddArray;
+        var (dbFrom, dbTo) = Arrange();
+
+        // Act
+        DBUtils.Join(dbFrom, dbTo, strategy);
+
+        // Assert
+        var loc = dbTo.GetCollection("Loc");
+        loc.FindById("Vessel")["Or"].AsString.Should().Be("Maybe not");
+        loc.FindOne(x => x["Name"].IsString)["Age"].AsInt32.Should().Be(100);
+        dbTo.CollectionExists("Lmao").Should().BeTrue();
+        var lmao = dbTo.GetCollection("Lmao");
+        lmao.FindOne(x => x["Cuz"].IsString)["Cuz"].Should().Be("lulz");
+
+        var locArr = loc.FindById("Vessel")["Arr"].AsArray;
+        locArr.Count.Should().Be(3);
+        locArr.SequenceEqual(new BsonValue[] { 100, 200, 300 }).Should().BeTrue();
+    }
 }
