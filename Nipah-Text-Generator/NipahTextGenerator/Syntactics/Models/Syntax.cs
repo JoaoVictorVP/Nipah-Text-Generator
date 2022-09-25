@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,4 +29,23 @@ public class Syntax
     {
         Language = language;
     }
+
+    public override string ToString()
+    {
+        var sb = new StringBuilder(3200);
+        foreach (var word in words)
+            sb.Append(BuildFor(word));
+        return sb.ToString();
+    }
+    string BuildFor(SyntaxWord word)
+        => $"{word.Word}:"
+        + BuildForRelations(CollectionsMarshal.AsSpan(word.Relations.Left), "\n Left")
+        + BuildForRelations(CollectionsMarshal.AsSpan(word.Relations.Right), "\n Right");
+    string BuildForRelations(ReadOnlySpan<SyntaxRelation> relations, string str)
+        => relations switch
+        {
+            { Length: > 0 } => $"\n   - {relations[0].Word.Word} ({relations[0].Times}x Times)"
+                + BuildForRelations(relations[1..], str),
+            _ => str
+        };
 }
