@@ -9,6 +9,8 @@ namespace AppConfigsUtils;
 
 public class AppConfigsManager
 {
+    public const string ConfigsSectionExtension = "ncf";
+
     public string ConfigsDirectory { get; }
     public string AppName { get; }
     public Func<IConfigsManager> ConfigsManagerFactory { get; }
@@ -28,24 +30,28 @@ public class AppConfigsManager
         if (cachedPath is not null)
             return cachedPath;
         string appDir = Path.Combine(ConfigsDirectory, AppName);
-        if (Directory.Exists(appDir) is false)
-            Directory.CreateDirectory(appDir);
+        if (FileManager.DirectoryExists(appDir) is false)
+            FileManager.CreateDirectory(appDir);
         return cachedPath = appDir;
     }
 
+    Dictionary<string, IConfigsManager> cachedSections = new(32);
     public async ValueTask<IConfigsManager?> GetSection(string name)
     {
+        if (cachedSections.TryGetValue(name, out var cachedSection))
+            return cachedSection;
         var appDir = EnsurePath();
-        using var section = FileManager.Open(name, FileMode.OpenOrCreate);
+        string sectionPath = Path.Combine(appDir, Path.ChangeExtension(name, ConfigsSectionExtension));
+        using var section = FileManager.Open(sectionPath, FileMode.OpenOrCreate);
         if (section is null)
             return null;
         var configs = ConfigsManagerFactory();
         await configs.Load(section.Stream, toSave =>
         {
-            var sectionAgain = FileManager.Open(name, FileMode.Open);
+            var sectionAgain = FileManager.Open(sectionPath, FileMode.Open);
             if (sectionAgain is not null)
                 toSave.CopyTo(sectionAgain.Stream);
         });
-        return configs;
+        return cachedSections[name] = configs;
     }
 }

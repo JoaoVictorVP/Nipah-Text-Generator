@@ -24,9 +24,9 @@ public class JsonConfigsManager : IConfigsManager
     {
         this.onSave = onSave;
 
-        using var reader = new StreamReader(from);
+        var reader = new StreamReader(from);
         string json = reader.ReadToEnd();
-        configs = JsonConvert.DeserializeObject<AppConfigs>(json, jsonSettings);
+        configs = JsonConvert.DeserializeObject<AppConfigs>(json, jsonSettings) ?? new(32);
 
         return ValueTask.CompletedTask;
     }
@@ -57,6 +57,12 @@ public class JsonConfigsManager : IConfigsManager
         return configs.TryGetValue(property, out var value) 
             ? ValueTask.FromResult((T?)value) 
             : ValueTask.FromResult(defaultValue);
+    }
+
+    public ValueTask<bool> Remove(string property)
+    {
+        var configs = EnsureLoaded();
+        return ValueTask.FromResult(configs.Remove(property));
     }
 
     public ValueTask Clear()
