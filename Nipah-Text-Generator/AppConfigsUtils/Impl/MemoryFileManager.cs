@@ -11,12 +11,25 @@ public class MemoryFileManager : IFileManager
 {
     readonly FSDirectory root = new("<root>");
 
-    public bool Exists(string file) => root.TryNavigate(file) is not null;
+    public bool Exists(string file) => root.TryNavigate(file) is FSFile and not null;
 
-    public Stream? Open(string file, FileMode mode)
+    public bool DirectoryExists(string directory) => root.TryNavigate(directory) is FSDirectory and not null;
+
+    public FileHandle? Open(string file, FileMode mode)
     {
-        var fileNode = root.TryNavigate(file) as FSFile;
-        return fileNode?.Contents;
+        if(mode is FileMode.Create)
+        {
+            Delete(file);
+            return CreateFile(file);
+        }
+        else if(mode is FileMode.CreateNew)
+            return Exists(file) ? null : CreateFile(file);
+
+        return root.TryNavigate(file) is not FSFile fileNode
+            ? mode is FileMode.OpenOrCreate
+                ? CreateFile(file)
+                : null
+            : new(fileNode.Contents, false);
     }
 
     public void Delete(string file)
@@ -30,6 +43,44 @@ public class MemoryFileManager : IFileManager
         Delete(file);
         return ValueTask.CompletedTask;
     }
+
+    public bool DeleteDirectory(string path)
+    {
+        var dir = root.TryNavigate(path);
+        if (dir is null)
+            return false;
+        dir.Parent?.Delete(dir.Name);
+        return true;
+    }
+
+    public FileHandle? CreateFile(string path)
+    {
+        string? bdirP = Path.GetDirectoryName(path);
+        if (bdirP is null) return null;
+        var bdir = root.TryNavigate(bdirP);
+        if (bdir is not null and FSDirectory bdirFact)
+        {
+            var stream = new MemoryStream(320);
+            bdirFact.Add(new FSFile(Path.GetFileName(path), stream));
+            return new(stream, false);
+        }
+        else
+            return null;
+    }
+
+    public bool CreateDirectory(string path)
+    {
+        string[] parts = path.Split(FSDirectory.PathSeparators, StringSplitOptions.RemoveEmptyEntries);
+        DoCreateDirectory(parts, root);
+        return true;
+    }
+    FSDirectory? DoCreateDirectory(ReadOnlySpan<string> parts, FSDirectory dir)
+        => parts switch
+        {
+            { IsEmpty: false } => DoCreateDirectory(parts[1..], 
+                dir.TryGet(parts[0]) as FSDirectory ?? dir.Add(new FSDirectory(parts[0]))),
+            _ => dir
+        };
 
     abstract record FSNode(string Name) : IDisposable
     {
@@ -48,18 +99,26 @@ public class MemoryFileManager : IFileManager
     {
         readonly Dictionary<string, FSNode> files = new(32);
 
-        public void Add(FSNode node)
-            => files[node.Name] = node with { Parent = this };
+        public TFSNode Add<TFSNode>(TFSNode node) where TFSNode : FSNode
+            => (TFSNode)(files[node.Name] = node with { Parent = this });
+        public FSNode? TryGet(string name)
+        {
+            return files.TryGetValue(name, out var node)
+                ? node
+                : null;
+        }
         public void Delete(string name)
         {
             files.Remove(name, out FSNode? node);
             node?.Dispose();
         }
 
-        static readonly char[] pathSeparators = new[] { '/', '\\' };
+        public static readonly char[] PathSeparators = new[] { '/', '\\' };
         public FSNode? TryNavigate(string path)
         {
-            string[] parts = path.Split(pathSeparators);
+            if (path is "") return this;
+            string[] parts = path.Split(PathSeparators, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length is 0) return this;
             return DoTryNavigate(parts);
         }
         FSNode? DoTryNavigate(ReadOnlySpan<string> parts)
