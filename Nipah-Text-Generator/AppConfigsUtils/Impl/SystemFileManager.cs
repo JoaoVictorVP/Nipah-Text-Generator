@@ -16,20 +16,6 @@ public class SystemFileManager : IFileManager
         return File.Open(file, mode);
     }
 
-    public void Write(string file, Stream stream)
-    {
-        var handle = File.OpenWrite(file);
-        handle.Position = 0;
-        stream.CopyTo(handle);
-    }
-
-    public async ValueTask WriteAsync(string file, Stream stream, CancellationToken ct = default)
-    {
-        var handle = File.OpenWrite(file);
-        handle.Position = 0;
-        await stream.CopyToAsync(handle, ct);
-    }
-
     public void Delete(string file)
     {
         File.Delete(file);

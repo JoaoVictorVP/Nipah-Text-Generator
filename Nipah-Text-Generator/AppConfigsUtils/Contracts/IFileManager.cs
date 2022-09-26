@@ -9,9 +9,7 @@ namespace AppConfigsUtils.Contracts;
 public interface IFileManager
 {
     bool Exists(string file);
-    Stream Open(string file, FileMode mode);
-    void Write(string file, Stream stream);
-    ValueTask WriteAsync(string file, Stream stream, CancellationToken ct = default);
+    Stream? Open(string file, FileMode mode);
     void Delete(string file);
     ValueTask DeleteAsync(string file, CancellationToken ct = default);
 }
