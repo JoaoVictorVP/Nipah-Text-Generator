@@ -18,6 +18,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppConfigsUtils\AppConfigsUtils.csproj" />
+    <ProjectReference Include="..\AppLocalizationUtils\AppLocalizationUtils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="localization\en-US.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
