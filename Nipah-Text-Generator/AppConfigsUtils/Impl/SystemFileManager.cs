@@ -9,6 +9,18 @@ namespace AppConfigsUtils.Impl;
 
 public class SystemFileManager : IFileManager
 {
+    public string Root
+    {
+        get
+        {
+            if (OperatingSystem.IsWindows())
+                return Path.GetPathRoot(Path.GetFullPath("./")) ?? "C:/";
+            else if (OperatingSystem.IsLinux())
+                return "/";
+            return "/";
+        }
+    }
+
     public bool Exists(string file) => File.Exists(file);
 
     public bool DirectoryExists(string directory) => Directory.Exists(directory);

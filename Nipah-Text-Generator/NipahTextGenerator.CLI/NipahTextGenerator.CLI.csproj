@@ -16,4 +16,8 @@
     <PackageReference Include="Spectre.Console.Cli" Version="0.45.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AppConfigsUtils\AppConfigsUtils.csproj" />
+  </ItemGroup>
+
 </Project>

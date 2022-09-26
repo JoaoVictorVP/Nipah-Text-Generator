@@ -11,6 +11,8 @@ public class MemoryFileManager : IFileManager
 {
     readonly FSDirectory root = new("<root>");
 
+    public string Root => "<root>/";
+
     public bool Exists(string file) => root.TryNavigate(file) is FSFile and not null;
 
     public bool DirectoryExists(string directory) => root.TryNavigate(directory) is FSDirectory and not null;

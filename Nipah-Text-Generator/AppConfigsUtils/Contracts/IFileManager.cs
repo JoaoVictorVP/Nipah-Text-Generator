@@ -8,6 +8,7 @@ namespace AppConfigsUtils.Contracts;
 
 public interface IFileManager
 {
+    string Root { get; }
     bool Exists(string file);
     bool DirectoryExists(string directory);
     FileHandle? CreateFile(string path);
