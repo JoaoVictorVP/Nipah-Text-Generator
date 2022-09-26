@@ -1,0 +1,1 @@
+﻿global using AppConfigs = System.Collections.Generic.Dictionary<string, object>;
