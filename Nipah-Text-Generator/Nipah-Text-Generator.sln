@@ -13,11 +13,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A712B7DE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteDBForkJoin.UnitTests", "LiteDBForkJoin.UnitTests\LiteDBForkJoin.UnitTests.csproj", "{5F20AB39-0096-4831-8E98-D926C6E12725}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NipahTextGenerator.CLI", "NipahTextGenerator.CLI\NipahTextGenerator.CLI.csproj", "{61CDB3FF-7B49-4475-BC1F-B8FA34D9EDB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NipahTextGenerator.CLI", "NipahTextGenerator.CLI\NipahTextGenerator.CLI.csproj", "{61CDB3FF-7B49-4475-BC1F-B8FA34D9EDB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfigsUtils", "AppConfigsUtils\AppConfigsUtils.csproj", "{2C4827EE-EC93-4CFA-933F-924A84164F27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppConfigsUtils", "AppConfigsUtils\AppConfigsUtils.csproj", "{2C4827EE-EC93-4CFA-933F-924A84164F27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfigsUtils.UnitTests", "AppConfigsUtils.UnitTests\AppConfigsUtils.UnitTests.csproj", "{35A24995-B0DB-4288-A15F-3DD8B1907BDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppConfigsUtils.UnitTests", "AppConfigsUtils.UnitTests\AppConfigsUtils.UnitTests.csproj", "{35A24995-B0DB-4288-A15F-3DD8B1907BDD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppLocalizationUtils", "AppLocalizationUtils\AppLocalizationUtils.csproj", "{2F8744D4-95D6-4FBD-B9D8-9383646C05E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppLocalization.UnitTests", "AppLocalization.UnitTests\AppLocalization.UnitTests.csproj", "{FA709589-1A26-4385-9B1F-B739F308B49C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{E0E046D4-06D3-4091-BE77-9ED75E88A461}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,13 +59,25 @@ Global
 		{35A24995-B0DB-4288-A15F-3DD8B1907BDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35A24995-B0DB-4288-A15F-3DD8B1907BDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35A24995-B0DB-4288-A15F-3DD8B1907BDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F8744D4-95D6-4FBD-B9D8-9383646C05E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F8744D4-95D6-4FBD-B9D8-9383646C05E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F8744D4-95D6-4FBD-B9D8-9383646C05E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F8744D4-95D6-4FBD-B9D8-9383646C05E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA709589-1A26-4385-9B1F-B739F308B49C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA709589-1A26-4385-9B1F-B739F308B49C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA709589-1A26-4385-9B1F-B739F308B49C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA709589-1A26-4385-9B1F-B739F308B49C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{9FD1E2D3-3AB8-4CBC-93A5-FCD55280B018} = {E0E046D4-06D3-4091-BE77-9ED75E88A461}
 		{5F20AB39-0096-4831-8E98-D926C6E12725} = {A712B7DE-966D-438E-9DB2-7C2DBB67B504}
+		{2C4827EE-EC93-4CFA-933F-924A84164F27} = {E0E046D4-06D3-4091-BE77-9ED75E88A461}
 		{35A24995-B0DB-4288-A15F-3DD8B1907BDD} = {A712B7DE-966D-438E-9DB2-7C2DBB67B504}
+		{2F8744D4-95D6-4FBD-B9D8-9383646C05E5} = {E0E046D4-06D3-4091-BE77-9ED75E88A461}
+		{FA709589-1A26-4385-9B1F-B739F308B49C} = {A712B7DE-966D-438E-9DB2-7C2DBB67B504}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A66B0772-A1F2-4688-ADE1-4676215E0884}
