@@ -20,6 +20,14 @@ public class JsonConfigsManager : IConfigsManager
     Action<Stream>? onSave;
     AppConfigs? configs;
 
+    public JsonConfigsManager()
+    {
+        onSet += async prop =>
+        {
+            await ExecuteHooks();
+        };
+    }
+
     public ValueTask Load(Stream from, Action<Stream> onSave)
     {
         this.onSave = onSave;
@@ -43,12 +51,13 @@ public class JsonConfigsManager : IConfigsManager
             : throw new Exception("Load not called for this settings manager");
     }
 
-    public ValueTask Set<T>(string property, T value)
+    event Func<string, ValueTask> onSet;
+    public async ValueTask Set<T>(string property, T value)
     {
         ArgumentNullException.ThrowIfNull(value);
         var configs = EnsureLoaded();
         configs[property] = value;
-        return ValueTask.CompletedTask;
+        await (onSet?.Invoke(property) ?? ValueTask.CompletedTask);
     }
 
     public ValueTask<T?> GetOrDefault<T>(string property, T? defaultValue = default)
@@ -63,6 +72,12 @@ public class JsonConfigsManager : IConfigsManager
     {
         var configs = EnsureLoaded();
         return ValueTask.FromResult(configs.Remove(property));
+    }
+
+    public ValueTask<bool> Contains(string property)
+    {
+        var configs = EnsureLoaded();
+        return ValueTask.FromResult(configs.ContainsKey(property));
     }
 
     public ValueTask Clear()
@@ -85,5 +100,26 @@ public class JsonConfigsManager : IConfigsManager
         onSave(stream);
 
         return ValueTask.CompletedTask;
+    }
+
+    readonly List<WeakReference<ConfigsHook>> hooks = new(32);
+    public async ValueTask<ConfigsHook> Hook<T>(string property, Action<T?> propertyCallback)
+    {
+        if (await Contains(property))
+            propertyCallback(await GetOrDefault<T>(property));
+        var hook = new ConfigsHook(property, val => propertyCallback((T)val));
+        hooks.Add(new(hook));
+        return hook;
+    }
+    async ValueTask ExecuteHooks()
+    {
+        for (int i = 0; i < hooks.Count; i++)
+        {
+            var maybeHook = hooks[i];
+            if (maybeHook.TryGetTarget(out var hook))
+                hook.PropertyCallback(await GetOrDefault<object>(hook.Property));
+            else
+                hooks.RemoveAt(i);
+        }
     }
 }
