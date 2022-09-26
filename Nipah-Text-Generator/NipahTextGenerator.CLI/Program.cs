@@ -1,2 +1,12 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿
+using Spectre.Console;
+
+var console = AnsiConsole.Create(new()
+{
+    ColorSystem = ColorSystemSupport.Detect,
+    Ansi = AnsiSupport.Detect,
+    Enrichment = new() { UseDefaultEnrichers = true },
+    Interactive = InteractionSupport.Detect
+});
+
+var menu = new SelectionPrompt<string>();
