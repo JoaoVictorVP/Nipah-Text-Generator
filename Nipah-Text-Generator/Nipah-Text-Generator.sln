@@ -29,6 +29,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experimental", "Experimenta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NipahTextGenerator.Experimental.CausalityNetwork", "NipahTextGenerator.Experimental.CausalityNetwork\NipahTextGenerator.Experimental.CausalityNetwork.csproj", "{4C5D7881-1C5D-47AE-B8D4-D778667187D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NipahTextTools.Cli", "Tools\NipahTextTools.Cli\NipahTextTools.Cli.csproj", "{1F9A8AC9-D204-45B6-846A-582013FD5A33}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{127B40B0-893D-4C3C-A6EC-248B4C8DF30F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,10 @@ Global
 		{4C5D7881-1C5D-47AE-B8D4-D778667187D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C5D7881-1C5D-47AE-B8D4-D778667187D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C5D7881-1C5D-47AE-B8D4-D778667187D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F9A8AC9-D204-45B6-846A-582013FD5A33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F9A8AC9-D204-45B6-846A-582013FD5A33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F9A8AC9-D204-45B6-846A-582013FD5A33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F9A8AC9-D204-45B6-846A-582013FD5A33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +95,7 @@ Global
 		{2F8744D4-95D6-4FBD-B9D8-9383646C05E5} = {E0E046D4-06D3-4091-BE77-9ED75E88A461}
 		{FA709589-1A26-4385-9B1F-B739F308B49C} = {A712B7DE-966D-438E-9DB2-7C2DBB67B504}
 		{4C5D7881-1C5D-47AE-B8D4-D778667187D5} = {BF563E59-314F-47F3-9E39-75612CCEF312}
+		{1F9A8AC9-D204-45B6-846A-582013FD5A33} = {127B40B0-893D-4C3C-A6EC-248B4C8DF30F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A66B0772-A1F2-4688-ADE1-4676215E0884}
