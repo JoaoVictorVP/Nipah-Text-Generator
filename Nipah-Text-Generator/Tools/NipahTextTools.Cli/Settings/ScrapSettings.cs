@@ -2,6 +2,7 @@
 using Spectre.Console.Cli;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,9 +11,11 @@ namespace NipahTextTools.Cli.Settings;
 
 public class ScrapSettings : CommandSettings
 {
+    [Description("File to scrap")]
     [CommandArgument(0, "<file>")]
     public string File { get; set; } = "";
 
+    [Description("Output path of the scrap. Defaults to current directory at './scraps/{filename}.txt'")]
     [CommandOption("-o|--output")]
     public string Output { get; set; } = "";
 
@@ -26,8 +29,9 @@ public class ScrapSettings : CommandSettings
         if (Output is "")
         {
             string name = Path.GetFileNameWithoutExtension(File);
-            if (Directory.Exists("C:/scraps") is false) Directory.CreateDirectory("C:/scraps");
-            Output = Path.Combine("C:/scraps", $"{name}.txt");
+            string dir = Path.GetFullPath("./scraps");
+            if (Directory.Exists(dir) is false) Directory.CreateDirectory(dir);
+            Output = Path.Combine(dir, $"{name}.txt");
         }
 
         return base.Validate();
