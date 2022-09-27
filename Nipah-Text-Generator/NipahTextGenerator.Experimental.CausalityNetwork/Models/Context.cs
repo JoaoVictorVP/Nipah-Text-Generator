@@ -10,7 +10,6 @@ public class Context
 {
     public Random Rand { get; set; } = new();
     readonly Dictionary<string, Neuron> neurons = new(32);
-    readonly Dictionary<Neuron, NeuronIterator> iterators = new(32);
 
     public Neuron GetOrCreate(string expression)
     {
@@ -19,10 +18,24 @@ public class Context
             : neurons[expression] = new(expression);
     }
 
-    public NeuronIterator GetOrCreateIteratorFor(Neuron neuron)
+    public IteratorContext GetIterator()
+        => new(this);
+
+    public class IteratorContext
     {
-        return iterators.TryGetValue(neuron, out var iterator)
-            ? iterator
-            : iterators[neuron] = new(neuron);
+        readonly Context ctx;
+        readonly Dictionary<Neuron, NeuronIterator> iterators = new(32);
+
+        public NeuronIterator GetOrCreateIteratorFor(Neuron neuron)
+        {
+            return iterators.TryGetValue(neuron, out var iterator)
+                ? iterator
+                : iterators[neuron] = new(neuron);
+        }
+
+        public IteratorContext(Context ctx)
+        {
+            this.ctx = ctx;
+        }
     }
 }

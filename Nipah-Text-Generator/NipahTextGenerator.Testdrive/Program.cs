@@ -1,26 +1,39 @@
 ﻿
+using NipahTextGenerator.Experimental.CausalityNetwork;
+using NipahTextGenerator.Experimental.CausalityNetwork.Models;
 using NipahTextGenerator.Syntactics;
 using NipahTextGenerator.Syntactics.Models;
+using Spectre.Console;
 
-Console.WriteLine("Hello Syntax Trainer!");
+Console.WriteLine("Hello Semantics Trainer!");
 
-Console.WriteLine("Please type your text:");
+string SelectFile()
+{
+    var files = Directory.EnumerateFiles("./sources");
+    var selectFile = new SelectionPrompt<string>()
+        .Title("Please select your file:");
+    foreach (var file in files)
+        selectFile.AddChoice(file);
+    var select = AnsiConsole.Prompt(selectFile);
+    return select;
+}
 
-string file = Console.ReadLine() ?? "";
+var ctx = new Context();
 
-if (file is null or "")
-    return;
+var options = new TrainerOptions(MaxDeep: 300, Bias: 0.03);
 
-string text = File.ReadAllText(file);
+while (true)
+{
+    string file = SelectFile();
 
-var syntax = new Syntax("en-us");
+    if (file is null or "" || File.Exists(file) is false)
+        return;
 
-var trainer = new SyntaxTrainer();
+    string text = File.ReadAllText(file);
 
-trainer.Train(text, syntax);
+    var trainer = new Trainer();
 
-Console.WriteLine("See your trained syntax:");
+    trainer.Train(ctx, text, options);
 
-Console.WriteLine(syntax);
-
-Console.ReadKey(true);
+    AnsiConsole.MarkupLine("Done!");
+}
