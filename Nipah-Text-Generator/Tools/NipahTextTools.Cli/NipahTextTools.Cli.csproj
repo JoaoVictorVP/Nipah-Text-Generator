@@ -5,6 +5,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageOutputPath>C:/dev-tools/$(AssemblyName)</PackageOutputPath>
+    <PackAsTool>True</PackAsTool>
+    <ToolCommandName>nipah-text-tools</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
