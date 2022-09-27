@@ -8,7 +8,9 @@ app.Configure(config =>
 {
     config.AddBranch("scrap", scrap =>
     {
-        scrap.AddCommand<ScrapPDFCommand>("pdf");
+        scrap.AddCommand<ScrapPDFCommand>("pdf")
+            .WithDescription("Will try scrap some pdf to plain text")
+            .WithExample(new[] { "scrap", "pdf", "C:/dev/some.pdf", "--output", "C:/dev/scraps/some.txt" });
     });
 });
 

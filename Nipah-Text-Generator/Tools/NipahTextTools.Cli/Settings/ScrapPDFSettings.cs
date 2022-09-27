@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NipahTextTools.Cli.Settings;
 
-public class ScrapPDFSettings : FileSettings
+public class ScrapPDFSettings : ScrapSettings
 {
 
 }
