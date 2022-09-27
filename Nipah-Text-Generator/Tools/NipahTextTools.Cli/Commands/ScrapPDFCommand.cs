@@ -16,18 +16,25 @@ public class ScrapPDFCommand : Command<ScrapPDFSettings>
     readonly StringBuilder documentSB = new(3200);
     public override int Execute([NotNull] CommandContext context, [NotNull] ScrapPDFSettings settings)
     {
-        documentSB.Clear();
-        AnsiConsole.MarkupLine($"Scrapping pdf [bold yellow]'{settings.File}'[/] to [bold yellow]'{settings.Output}'[/]");
-        using var doc = PdfDocument.Open(settings.File, new() { UseLenientParsing = false });
-        foreach(var page in doc.GetPages())
+        try
         {
-            AnsiConsole.MarkupLine($"Scrapping page [bold]{page.Number}[/]");
-            string text = Process(page.Text);
-            documentSB.AppendLine(text);
+            documentSB.Clear();
+            AnsiConsole.MarkupLine($"Scraping pdf [bold yellow]'{settings.File}'[/] to [bold yellow]'{settings.Output}'[/]");
+            using var doc = PdfDocument.Open(settings.File, new() { UseLenientParsing = false });
+            foreach (var page in doc.GetPages())
+            {
+                AnsiConsole.MarkupLine($"Reading page [bold]{page.Number}[/]");
+                string text = Process(page.Text);
+                documentSB.AppendLine(text);
+            }
+            File.WriteAllText(settings.Output, documentSB.ToString());
+            AnsiConsole.MarkupLine("Done!");
+            return 0;
         }
-        File.WriteAllText(settings.Output, documentSB.ToString());
-        AnsiConsole.MarkupLine("Done!");
-        return 0;
+        catch
+        {
+            return 1;
+        }
     }
 
     readonly StringBuilder processSB = new(320);
@@ -53,7 +60,6 @@ public class ScrapPDFCommand : Command<ScrapPDFSettings>
 
             processSB.Append(c);
         }
-
 
         return processSB.ToString();
     }
