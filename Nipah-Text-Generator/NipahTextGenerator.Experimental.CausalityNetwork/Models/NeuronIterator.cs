@@ -28,4 +28,12 @@ public class NeuronIterator
         else
             return neuron.Layers[curIndex];
     }
+
+    public Layer? GetNextIfExist()
+    {
+        curIndex++;
+        return neuron.Layers.Count <= curIndex
+            ? null
+            : neuron.Layers[curIndex];
+    }
 }

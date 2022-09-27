@@ -11,6 +11,15 @@ public class Context
     public Random Rand { get; set; } = new();
     readonly Dictionary<string, Neuron> neurons = new(32);
 
+    public Neuron? GetRandom()
+    {
+        int count = neurons.Count;
+        if (count is 0)
+            return null;
+        int index = Rand.Next(0, count);
+        return neurons.ElementAt(index).Value;
+    }
+
     public Neuron GetOrCreate(string expression)
     {
         return neurons.TryGetValue(expression, out Neuron? neuron) 

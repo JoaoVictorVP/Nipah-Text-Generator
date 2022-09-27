@@ -11,17 +11,9 @@ namespace NipahTextGenerator.Experimental.CausalityNetwork;
 
 public class Trainer
 {
-    static readonly TokenizerOptions tokenizerOptions = new(
-        TokenizerOptions.DefaultSeparators,
-        Array.Empty<Scope>(),
-        Array.Empty<EndOfLine>(),
-        Array.Empty<SplitAggregator>()
-    );
-    static readonly Tokenizer tokenizer = new();
-
     public void Train(Context ctx, string text, TrainerOptions options)
     {
-        var tokens = tokenizer.Tokenize(text, tokenizerOptions);
+        var tokens = Common.Tokenizer.Tokenize(text.Replace("\r", ""), Common.TokenizerOptions);
         var itctx = ctx.GetIterator();
         DoTrain(ctx, itctx, CollectionsMarshal.AsSpan(tokens), options, options.MaxDeep, null);
     }
