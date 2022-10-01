@@ -53,7 +53,7 @@ void DoTrain(string file)
 
     var trainer = new Trainer();
 
-    Parallel.For(0, 3, _ =>
+    Parallel.For(0, 100, _ =>
     {
         trainer.Train(ctx, text, options);
     });

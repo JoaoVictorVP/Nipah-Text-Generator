@@ -19,11 +19,11 @@ public class Generator
 
         if (neuron is null) return "";
 
-        sb = Drive(sb, neuron, itctx, rand);
+        sb = Drive(sb, neuron, itctx, rand, 1);
 
         return sb.ToString();
     }
-    StringBuilder Drive(StringBuilder sb, Neuron neuron, Context.IteratorContext itctx, Random rand)
+    StringBuilder Drive(StringBuilder sb, Neuron neuron, Context.IteratorContext itctx, Random rand, double carry)
     {
         sb.Append(neuron.Expression);
         sb.Append(' ');
@@ -34,9 +34,9 @@ public class Generator
         if(layer is not null)
         foreach (var con in layer.Connections)
         {
-            if(rand.NextDouble() < con.Weight)
+            if(rand.NextDouble() / carry < con.Weight)
             {
-                Drive(sb, con.To, itctx, rand);
+                Drive(sb, con.To, itctx, rand, con.Weight);
                 return sb;
             }
         }
