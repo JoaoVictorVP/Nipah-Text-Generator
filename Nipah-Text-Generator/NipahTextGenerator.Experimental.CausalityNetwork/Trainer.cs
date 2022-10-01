@@ -13,7 +13,9 @@ public class Trainer
 {
     public void Train(Context ctx, string text, TrainerOptions options)
     {
-        var tokens = Common.Tokenizer.Tokenize(text.Replace("\r", ""), Common.TokenizerOptions);
+        var tokens = Common.Tokenizer.Tokenize(text, Common.TokenizerOptions, new LocalStringBuilderPool());
+        //var tokens = new List<Token>(text.Length);
+        //foreach (var c in text) tokens.Add(Token.BuildRaw(new SplitItem(c.ToString(), 0, 0)));
         var itctx = ctx.GetIterator();
         DoTrain(ctx, itctx, CollectionsMarshal.AsSpan(tokens), options, options.MaxDeep, null);
     }

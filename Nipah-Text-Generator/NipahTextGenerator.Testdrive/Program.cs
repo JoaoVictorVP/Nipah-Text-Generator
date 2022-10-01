@@ -20,7 +20,7 @@ void Menu(params (string name, Action action)[] options)
 
 string SelectFile()
 {
-    var files = Directory.EnumerateFiles("./sources");
+    var files = Directory.EnumerateFiles("./sources", "*.*", SearchOption.AllDirectories);
     var selectFile = new SelectionPrompt<string>()
         .Title("Please select your file:");
     foreach (var file in files)
@@ -31,18 +31,20 @@ string SelectFile()
 
 string[] SelectFiles()
 {
-    var files = Directory.EnumerateFiles("./sources");
+    var files = Enumerable.Empty<string>().Append("--- All ---")
+        .Concat(Directory.EnumerateFiles("./sources", "*.*", SearchOption.AllDirectories));
     var selectFiles = new MultiSelectionPrompt<string>(StringComparer.Ordinal)
         .Title("Please select your files:");
     foreach(var file in files)
         selectFiles.AddChoice(file);
     var select = AnsiConsole.Prompt(selectFiles);
+    if (select.Count is 1 && select[0] is "--- All ---") select = files.Skip(1).ToList();
     return select.ToArray();
 }
 
 var ctx = new Context();
 
-var options = new TrainerOptions(MaxDeep: 300, Bias: 0.03);
+var options = new TrainerOptions(MaxDeep: 300, Bias: 0.003);
 
 void DoTrain(string file)
 {
@@ -53,7 +55,7 @@ void DoTrain(string file)
 
     var trainer = new Trainer();
 
-    Parallel.For(0, 100, _ =>
+    Parallel.For(0, 2, _ =>
     {
         trainer.Train(ctx, text, options);
     });
@@ -82,7 +84,8 @@ void TrainMulti()
         if (file is null or "" || File.Exists(file) is false)
             return;
 
-    Parallel.ForEach(files, DoTrain);
+    for(int i = 0; i < 10; i++)
+        Parallel.ForEach(files, DoTrain);
 }
 
 void Generate()
@@ -91,7 +94,7 @@ void Generate()
 
     string text = generator.Generate(ctx);
 
-    AnsiConsole.MarkupLine(text);
+    AnsiConsole.WriteLine(text);
 
     AnsiConsole.WriteLine();
 

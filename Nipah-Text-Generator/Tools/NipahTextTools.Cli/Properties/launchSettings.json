@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NipahTextTools.Cli": {
+      "commandName": "Project",
+      "commandLineArgs": "scrap telegram json \"C:\\Users\\diade\\Downloads\\Telegram Desktop\\ChatExport_2022-09-27 (1)\\result.json\""
+    }
+  }
+}

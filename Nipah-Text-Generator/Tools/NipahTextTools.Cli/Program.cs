@@ -15,6 +15,13 @@ app.Configure(config =>
         scrap.AddCommand<ScrapEPUBCommand>("epub")
             .WithDescription("Will try to scrap some epub to plain text")
             .WithExample(new[] { "scrap", "epub", "C:/dev/some.epub", "--output", "C:/dev/scraps/some.txt" });
+
+        scrap.AddBranch("telegram", telegram =>
+        {
+            telegram.AddCommand<ScrapTelegramJsonCommand>("json")
+                .WithDescription("Will try to scrap your telegram conversation exported as JSON")
+                .WithExample(new[] { "scrap", "telegram", "json", "C:/dev/conversation.json", "--output", "C:/dev/scraps/conversation.txt" });
+        });
     });
 });
 

@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "NipahTextGenerator.CLI": {
+      "commandName": "Project"
+    }
+  }
+}

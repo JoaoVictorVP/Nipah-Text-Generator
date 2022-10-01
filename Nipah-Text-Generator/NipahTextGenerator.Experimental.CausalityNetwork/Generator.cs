@@ -26,7 +26,8 @@ public class Generator
     StringBuilder Drive(StringBuilder sb, Neuron neuron, Context.IteratorContext itctx, Random rand, double carry)
     {
         sb.Append(neuron.Expression);
-        sb.Append(' ');
+        //if((neuron.Expression.Length is 1 && (char.IsSeparator(neuron.Expression[0]) || char.IsSymbol(neuron.Expression[0]))) is false)
+            sb.Append(' ');
 
         var iterator = itctx.GetOrCreateIteratorFor(neuron);
         var layer = iterator.GetNextIfExist();

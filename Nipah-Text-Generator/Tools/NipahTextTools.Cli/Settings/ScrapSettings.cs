@@ -15,7 +15,7 @@ public class ScrapSettings : CommandSettings
     [CommandArgument(0, "<file>")]
     public string File { get; set; } = "";
 
-    [Description("Output path of the scrap. Defaults to current directory at './scraps/{filename}.txt'")]
+    [Description("Output path of the scrap. Defaults to file directory at './scraps/{filename}.txt'")]
     [CommandOption("-o|--output")]
     public string Output { get; set; } = "";
 
@@ -28,8 +28,10 @@ public class ScrapSettings : CommandSettings
 
         if (Output is "")
         {
+            string? inputDir = Path.GetDirectoryName(File);
+            if (inputDir is null) return ValidationResult.Error("Can't get input file directory");
             string name = Path.GetFileNameWithoutExtension(File);
-            string dir = Path.GetFullPath("./scraps");
+            string dir = Path.Combine(inputDir, "scraps");
             if (Directory.Exists(dir) is false) Directory.CreateDirectory(dir);
             Output = Path.Combine(dir, $"{name}.txt");
         }

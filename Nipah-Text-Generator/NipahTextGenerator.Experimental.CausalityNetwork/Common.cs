@@ -13,7 +13,9 @@ public static class Common
         TokenizerOptions.DefaultSeparators,
         Array.Empty<Scope>(),
         Array.Empty<EndOfLine>(),
-        Array.Empty<SplitAggregator>()
+        Array.Empty<SplitAggregator>(),
+        true,
+        false
     );
     public static readonly Tokenizer Tokenizer = new();
 }
